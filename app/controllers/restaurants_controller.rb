@@ -1,8 +1,9 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
+  before_action :set_restaurant, only: [:show, :edit, :update, :destroy, :chef]
 
   # GET /restaurants
   def index
+    @title = "Restaurants"
     @restaurants = Restaurant.all
   end
 
@@ -43,6 +44,16 @@ class RestaurantsController < ApplicationController
   def destroy
     @restaurant.destroy
     redirect_to restaurants_url, notice: 'Restaurant was successfully destroyed.'
+  end
+
+  def top
+    @title = "Top Restaurants"
+    @restaurants = Restaurant.where(stars: 5)
+    render 'index'
+  end
+
+  def chef
+    @chef = @restaurant.chef_name
   end
 
   private
